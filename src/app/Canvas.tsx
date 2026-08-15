@@ -5,8 +5,8 @@ import useRequestAnimationFrameLoop from "./useRequestAnimationFrameLoop";
 type DrawParams = {
   ctx: CanvasRenderingContext2D;
   dpr: number;
-  width: number;
-  height: number;
+  canvasWidth: number;
+  canvasHeight: number;
   deltaTime: number;
   totalTime: number;
 };
@@ -87,8 +87,8 @@ function Canvas({ draw, ...delegated }: CanvasProps) {
     draw({
       ctx,
       dpr,
-      width: boundingBox.width,
-      height: boundingBox.height,
+      canvasWidth: boundingBox.width,
+      canvasHeight: boundingBox.height,
       deltaTime,
       totalTime,
     });

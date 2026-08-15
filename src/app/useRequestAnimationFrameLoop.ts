@@ -10,10 +10,6 @@ const useRequestAnimationFrameLoop = (callback: () => void, isRunning = true) =>
     }
 
     const tick = () => {
-      if (typeof savedCallback.current !== "function") {
-        return;
-      }
-
       savedCallback.current();
       animationFrameId.current = window.requestAnimationFrame(tick);
     };
