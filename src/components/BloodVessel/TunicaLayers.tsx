@@ -7,9 +7,13 @@ import { range } from "lodash";
 import { normalize } from "../../app/utils";
 import createNoiseGenerator from "../../vendor/noise.vendor";
 
+// const tunicaExterna = { height: 1.5, color: "hsl(32deg 35% 55%)" };
+// const tunicaMedia = { height: 3, color: "hsl(355deg 55% 48%)" };
+// const tunicaIntima = { height: 1, color: "hsl(340deg 60% 90%)" };
+
 const tunicaExterna = { height: 1.5, color: "hsl(32deg 35% 55%)" };
-const tunicaMedia = { height: 3, color: "hsl(355deg 55% 48%)" };
-const tunicaIntima = { height: 1, color: "hsl(340deg 60% 90%)" };
+const tunicaMedia = { height: 3, color: "hsl(355deg 55% 40%)" };
+const tunicaIntima = { height: 1, color: "hsl(340deg 60% 70%)" };
 
 const tunicaLayers = [tunicaExterna, tunicaMedia, tunicaIntima];
 

@@ -1,0 +1,93 @@
+"use client";
+
+import React from "react";
+import { CanvasContext } from "../Canvas";
+import { random, range } from "lodash";
+import createNoiseGenerator from "../../vendor/noise.vendor";
+import { normalize } from "../../app/utils";
+
+const NUM_RBC = 30;
+const RIM_RADIUS = 18;
+const DEPRESSION_RADIUS = 12;
+
+const { simplex2 } = createNoiseGenerator(800);
+
+export default function RBC() {
+  const canvasContextValue = React.useContext(CanvasContext);
+
+  const RBCsRef = React.useRef(
+    range(NUM_RBC).map(() => {
+      const initCx = random(-45, -90);
+      return {
+        initCx,
+        cx: initCx,
+        cyFraction: random(0.1, 0.9),
+        velocity: random(1, 5, true),
+      };
+    }),
+  );
+
+  React.useEffect(() => {
+    if (!canvasContextValue) return;
+
+    const { register } = canvasContextValue;
+
+    const unregister = register(
+      ({ ctx, canvasWidth, canvasHeight, totalTime }) => {
+        function drawRBC(cx: number, cy: number) {
+          ctx.beginPath();
+          ctx.arc(cx, cy, RIM_RADIUS, 0, Math.PI * 2);
+          const outerGradient = ctx.createRadialGradient(
+            cx,
+            cy,
+            DEPRESSION_RADIUS,
+            cx,
+            cy,
+            RIM_RADIUS,
+          );
+          outerGradient.addColorStop(0, "hsl(353 70% 20%)");
+          outerGradient.addColorStop(0.5, "hsl(353 89.8% 24%)");
+          outerGradient.addColorStop(1, "hsl(353 89.8% 20%)");
+          ctx.fillStyle = outerGradient;
+          ctx.fill();
+
+          ctx.beginPath();
+          ctx.arc(cx, cy, 12, 0, Math.PI * 2);
+          const gradient = ctx.createRadialGradient(
+            cx,
+            cy,
+            6,
+            cx,
+            cy,
+            DEPRESSION_RADIUS,
+          );
+          gradient.addColorStop(0, "hsl(353 70% 35%)");
+          gradient.addColorStop(0.99, "hsl(353 89.8% 24%)");
+          gradient.addColorStop(1, "hsl(353 89.8% 24%)");
+          ctx.fillStyle = gradient;
+          ctx.fill();
+        }
+
+        RBCsRef.current.forEach((rbc) => {
+          drawRBC(rbc.cx, rbc.cyFraction * canvasHeight);
+          rbc.cx += rbc.velocity;
+          rbc.cyFraction = normalize(
+            simplex2(rbc.cx / 100, totalTime / 100),
+            -1,
+            1,
+            0,
+            1,
+          );
+
+          if (rbc.cx > canvasWidth + RIM_RADIUS) {
+            rbc.cx = random(-45, -90);
+            rbc.cyFraction = random(0.1, 0.9);
+          }
+        });
+      },
+    );
+
+    return unregister;
+  }, [canvasContextValue]);
+  return <React.Fragment />;
+}
