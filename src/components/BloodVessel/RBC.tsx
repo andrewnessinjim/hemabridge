@@ -5,7 +5,7 @@ import { CanvasContext } from "../Canvas";
 import { VesselRatiosContext } from "./VesselRatios";
 import { random, range } from "lodash";
 import createNoiseGenerator from "../../vendor/noise.vendor";
-import { normalize } from "../../app/utils";
+import { clampedNormalize } from "../../app/utils";
 
 const NUM_RBC = 30;
 const RIM_RADIUS = 18;
@@ -81,12 +81,21 @@ export default function RBC() {
         RBCsRef.current.forEach((rbc) => {
           drawRBC(rbc.cx, rbc.cyFraction * canvasHeight);
           rbc.cx += rbc.velocity;
-          rbc.cyFraction = normalize(
+          const driftMin = Math.max(
+            rbc.cyFraction - Y_VARIATION,
+            lumenMinFraction,
+          );
+          const driftMax = Math.min(
+            rbc.cyFraction + Y_VARIATION,
+            lumenMaxFraction,
+          );
+
+          rbc.cyFraction = clampedNormalize(
             simplex2(rbc.cx / 100, totalTime / 100),
             -1,
             1,
-            rbc.cyFraction - Y_VARIATION,
-            rbc.cyFraction + Y_VARIATION,
+            driftMin,
+            driftMax,
           );
 
           if (rbc.cx > canvasWidth + RIM_RADIUS) {
