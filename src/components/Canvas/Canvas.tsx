@@ -26,8 +26,8 @@ function Canvas({ draw, ...delegated }: CanvasProps) {
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
 
   React.useEffect(() => {
-    startTimeRef.current = Date.now();
-    lastTimeRef.current = Date.now();
+    startTimeRef.current = performance.now();
+    lastTimeRef.current = performance.now();
 
     if (!canvasRef.current) {
       return;
@@ -81,7 +81,7 @@ function Canvas({ draw, ...delegated }: CanvasProps) {
 
     const now = Date.now();
     const deltaTime = Math.min(now - lastTimeRef.current, 250) / 1000;
-    const totalTime = now - startTimeRef.current;
+    const totalTime = (now - startTimeRef.current) / 1000;
     lastTimeRef.current = now;
 
     draw({

@@ -14,7 +14,7 @@ export const normalize = (
   return (newScaleMax - newScaleMin) * standardNormalization + newScaleMin;
 };
 
-export const clamp = (val, min = 0, max = 1) => {
+export const clamp = (val: number, min = 0, max = 1) => {
   if (min > max) {
     [min, max] = [max, min];
   }
