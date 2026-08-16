@@ -1,16 +1,23 @@
+"use client";
+
 import * as React from "react";
 import Canvas from "../Canvas";
 import styles from "./BloodVessel.module.css";
 import TunicaLayers from "./TunicaLayers";
 import RBC from "./RBC";
+import WBC from "./WBC";
+import { VesselRatiosContext, vesselRatios } from "./VesselRatios";
 
 function BloodVessel() {
   return (
-    <Canvas className={styles.canvas}>
-      {/* <Box /> */}
-      <TunicaLayers />
-      <RBC />
-    </Canvas>
+    <VesselRatiosContext.Provider value={vesselRatios}>
+      <Canvas className={styles.canvas}>
+        {/* <Box /> */}
+        <TunicaLayers />
+        <RBC />
+        <WBC />
+      </Canvas>
+    </VesselRatiosContext.Provider>
   );
 }
 

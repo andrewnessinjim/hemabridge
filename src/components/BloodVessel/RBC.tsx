@@ -2,6 +2,7 @@
 
 import React from "react";
 import { CanvasContext } from "../Canvas";
+import { VesselRatiosContext } from "./VesselRatios";
 import { random, range } from "lodash";
 import createNoiseGenerator from "../../vendor/noise.vendor";
 import { normalize } from "../../app/utils";
@@ -15,6 +16,14 @@ const { simplex2 } = createNoiseGenerator(800);
 
 export default function RBC() {
   const canvasContextValue = React.useContext(CanvasContext);
+  const ratios = React.useContext(VesselRatiosContext);
+
+  const totalParts =
+    2 * (ratios.intima + ratios.media + ratios.adventitia) + ratios.lumen;
+  const wallFraction =
+    (ratios.intima + ratios.media + ratios.adventitia) / totalParts;
+  const lumenMinFraction = wallFraction;
+  const lumenMaxFraction = 1 - wallFraction;
 
   const RBCsRef = React.useRef(
     range(NUM_RBC).map(() => {
@@ -22,7 +31,7 @@ export default function RBC() {
       return {
         initCx,
         cx: initCx,
-        cyFraction: random(0.1, 0.9),
+        cyFraction: random(lumenMinFraction, lumenMaxFraction),
         velocity: random(1, 5, true),
       };
     }),
@@ -82,13 +91,13 @@ export default function RBC() {
 
           if (rbc.cx > canvasWidth + RIM_RADIUS) {
             rbc.cx = random(-45, -90);
-            rbc.cyFraction = random(0.1, 0.9);
+            rbc.cyFraction = random(lumenMinFraction, lumenMaxFraction);
           }
         });
       },
     );
 
     return unregister;
-  }, [canvasContextValue]);
+  }, [canvasContextValue, lumenMinFraction, lumenMaxFraction]);
   return <React.Fragment />;
 }
