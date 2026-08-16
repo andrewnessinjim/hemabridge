@@ -9,6 +9,7 @@ import { normalize } from "../../app/utils";
 const NUM_RBC = 30;
 const RIM_RADIUS = 18;
 const DEPRESSION_RADIUS = 12;
+const Y_VARIATION = 0.0005;
 
 const { simplex2 } = createNoiseGenerator(800);
 
@@ -75,8 +76,8 @@ export default function RBC() {
             simplex2(rbc.cx / 100, totalTime / 100),
             -1,
             1,
-            rbc.cyFraction - 0.0005,
-            rbc.cyFraction + 0.0005,
+            rbc.cyFraction - Y_VARIATION,
+            rbc.cyFraction + Y_VARIATION,
           );
 
           if (rbc.cx > canvasWidth + RIM_RADIUS) {
