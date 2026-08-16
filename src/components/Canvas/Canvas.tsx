@@ -1,6 +1,9 @@
+"use client";
+
 import React from "react";
 
 import useRequestAnimationFrameLoop from "./useRequestAnimationFrameLoop";
+import useDrawableRegistry from "./useDrawableRegistry";
 
 type DrawParams = {
   ctx: CanvasRenderingContext2D;
@@ -11,11 +14,17 @@ type DrawParams = {
   totalTime: number;
 };
 
-type CanvasProps = React.CanvasHTMLAttributes<HTMLCanvasElement> & {
-  draw: (params: DrawParams) => void;
+type CanvasProps = React.CanvasHTMLAttributes<HTMLCanvasElement>;
+
+type CanvasContextValue = {
+  register: ReturnType<typeof useDrawableRegistry<DrawParams>>["register"];
 };
 
-function Canvas({ draw, ...delegated }: CanvasProps) {
+export const CanvasContext = React.createContext<CanvasContextValue | null>(
+  null,
+);
+
+function Canvas({ children, ...delegated }: CanvasProps) {
   const ctxRef = React.useRef<CanvasRenderingContext2D | null>(null);
   const boundingBoxRef = React.useRef<DOMRect | null>(null);
   const dprRef = React.useRef<number | null>(null);
@@ -24,6 +33,8 @@ function Canvas({ draw, ...delegated }: CanvasProps) {
   const lastTimeRef = React.useRef<number | null>(null);
 
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
+
+  const drawableRegistry = useDrawableRegistry<DrawParams>();
 
   React.useEffect(() => {
     startTimeRef.current = performance.now();
@@ -84,7 +95,8 @@ function Canvas({ draw, ...delegated }: CanvasProps) {
     const totalTime = (now - startTimeRef.current) / 1000;
     lastTimeRef.current = now;
 
-    draw({
+    ctx.clearRect(0, 0, boundingBox.width, boundingBox.height);
+    drawableRegistry.runAll({
       ctx,
       dpr,
       canvasWidth: boundingBox.width,
@@ -94,7 +106,12 @@ function Canvas({ draw, ...delegated }: CanvasProps) {
     });
   });
 
-  return <canvas {...delegated} ref={canvasRef} />;
+  return (
+    <CanvasContext.Provider value={{ register: drawableRegistry.register }}>
+      <canvas {...delegated} ref={canvasRef} />
+      {children}
+    </CanvasContext.Provider>
+  );
 }
 
 export default Canvas;
