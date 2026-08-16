@@ -6,6 +6,7 @@ import styles from "./BloodVessel.module.css";
 import TunicaLayers from "./TunicaLayers";
 import RBC from "./RBC";
 import WBC from "./WBC";
+import Lumen from "./Lumen";
 import { VesselRatiosContext, vesselRatios } from "./VesselRatios";
 
 function BloodVessel() {
@@ -13,6 +14,7 @@ function BloodVessel() {
     <VesselRatiosContext.Provider value={vesselRatios}>
       <Canvas className={styles.canvas}>
         {/* <Box /> */}
+        <Lumen />
         <TunicaLayers />
         <RBC />
         <WBC />
