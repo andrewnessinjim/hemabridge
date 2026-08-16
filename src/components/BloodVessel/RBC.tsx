@@ -75,8 +75,8 @@ export default function RBC() {
             simplex2(rbc.cx / 100, totalTime / 100),
             -1,
             1,
-            0,
-            1,
+            rbc.cyFraction - 0.0005,
+            rbc.cyFraction + 0.0005,
           );
 
           if (rbc.cx > canvasWidth + RIM_RADIUS) {
