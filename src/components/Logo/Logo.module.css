@@ -1,0 +1,13 @@
+.wrapper {
+  font-weight: var(--font-weight-extrabold);
+  display: flex;
+  font-size: var(--text-3xl);
+}
+
+.hema {
+  color: var(--primary-600);
+}
+
+.bridges {
+  color: var(--secondary-600);
+}
