@@ -5,7 +5,7 @@ import styles from "./Hero.module.css";
 
 function Hero() {
   return (
-    <div className={styles.container}>
+    <div className={`${styles.wrapper} siteWideContainer`}>
       <BloodVessel />
     </div>
   );

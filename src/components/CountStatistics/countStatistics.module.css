@@ -1,0 +1,10 @@
+.wrapper {
+    display: flex;
+    gap: var(--space-12);
+    flex-direction: column;
+}
+.countStatisticsWrapper {
+  display: flex;
+  gap: var(--space-10);
+  flex-direction: column;
+}

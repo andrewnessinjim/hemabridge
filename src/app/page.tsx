@@ -1,11 +1,13 @@
+import CountStatistics from "@/components/CountStatistics";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 
 function App() {
   return (
-    <div className="siteContainer">
+    <div>
       <Header />
       <Hero />
+      <CountStatistics />
     </div>
   );
 }
