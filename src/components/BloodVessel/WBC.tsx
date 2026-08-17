@@ -11,6 +11,7 @@ import {
 } from "@/app/utils";
 
 import createNoiseGenerator from "../../vendor/noise.vendor";
+import { WBC_COLORS } from "@/colors";
 
 const NUM_WBC = 5;
 const NUM_WBC_POINTS = 200;
@@ -90,6 +91,7 @@ export default function WBC() {
       createWBC(random(lumenMinFraction, lumenMaxFraction)),
     ),
   );
+  const hasScatteredRef = React.useRef(false);
 
   React.useEffect(() => {
     if (!canvasContextValue) return;
@@ -111,7 +113,7 @@ export default function WBC() {
             ctx.lineTo(point.x, point.y);
           });
 
-          ctx.fillStyle = "hsl(90deg 100% 100%)";
+          ctx.fillStyle = WBC_COLORS.body;
           ctx.fill();
 
           ctx.beginPath();
@@ -127,10 +129,17 @@ export default function WBC() {
           restNucleusPoints.forEach((point) => {
             ctx.lineTo(point.x + nucleusX, point.y + nucleusY);
           });
-          ctx.fillStyle = "hsl(207deg 55% 55%)";
+          ctx.fillStyle = WBC_COLORS.nucleus;
           ctx.fill();
 
           ctx.restore();
+        }
+
+        if (!hasScatteredRef.current) {
+          WBCsRef.current.forEach((wbc) => {
+            wbc.cx = random(0, canvasWidth);
+          });
+          hasScatteredRef.current = true;
         }
 
         WBCsRef.current.forEach((wbc) => {

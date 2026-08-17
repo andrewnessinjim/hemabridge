@@ -12,13 +12,15 @@ import { VesselRatiosContext, vesselRatios } from "./VesselRatios";
 function BloodVessel() {
   return (
     <VesselRatiosContext.Provider value={vesselRatios}>
-      <Canvas className={styles.canvas}>
-        {/* <Box /> */}
-        <Lumen />
-        <TunicaLayers />
-        <RBC />
-        <WBC />
-      </Canvas>
+      <div className={styles.container}>
+        <Canvas className={styles.canvas}>
+          {/* <Box /> */}
+          <Lumen />
+          <TunicaLayers />
+          <RBC />
+          <WBC />
+        </Canvas>
+      </div>
     </VesselRatiosContext.Provider>
   );
 }

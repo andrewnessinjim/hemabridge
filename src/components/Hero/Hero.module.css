@@ -1,0 +1,16 @@
+.container {
+  position: relative;
+}
+
+.container::after {
+  /* position: absolute;
+  inset: 0;
+  content: " ";
+  background: linear-gradient(
+    to right,
+    hsl(0 0% 0% / 0) 0%,
+    hsl(0 0% 0% / 0.98) 15%,
+    hsl(0 0% 0% / 0.98) 85%,
+    hsl(0 0% 0% / 0) 100%
+  ); */
+}

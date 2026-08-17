@@ -6,8 +6,9 @@ import { VesselRatiosContext } from "./VesselRatios";
 import { random, range } from "lodash";
 import createNoiseGenerator from "../../vendor/noise.vendor";
 import { clampedNormalize } from "../../app/utils";
+import { RBC_COLORS } from "@/colors";
 
-const NUM_RBC = 30;
+const NUM_RBC = 50;
 const RIM_RADIUS = 18;
 const DEPRESSION_RADIUS = 12;
 const Y_VARIATION = 0.0005;
@@ -36,6 +37,7 @@ export default function RBC() {
       };
     }),
   );
+  const hasScatteredRef = React.useRef(false);
 
   React.useEffect(() => {
     if (!canvasContextValue) return;
@@ -55,9 +57,9 @@ export default function RBC() {
             cy,
             RIM_RADIUS,
           );
-          outerGradient.addColorStop(0, "hsl(353 70% 20%)");
-          outerGradient.addColorStop(0.5, "hsl(353 89.8% 24%)");
-          outerGradient.addColorStop(1, "hsl(353 89.8% 20%)");
+          outerGradient.addColorStop(0, RBC_COLORS.rimOuter);
+          outerGradient.addColorStop(0.5, RBC_COLORS.rimMid);
+          outerGradient.addColorStop(1, RBC_COLORS.rimInner);
           ctx.fillStyle = outerGradient;
           ctx.fill();
 
@@ -71,11 +73,18 @@ export default function RBC() {
             cy,
             DEPRESSION_RADIUS,
           );
-          gradient.addColorStop(0, "hsl(353 70% 35%)");
-          gradient.addColorStop(0.99, "hsl(353 89.8% 24%)");
-          gradient.addColorStop(1, "hsl(353 89.8% 24%)");
+          gradient.addColorStop(0, RBC_COLORS.depressionCenter);
+          gradient.addColorStop(0.99, RBC_COLORS.depressionEdge);
+          gradient.addColorStop(1, RBC_COLORS.depressionEdge);
           ctx.fillStyle = gradient;
           ctx.fill();
+        }
+
+        if (!hasScatteredRef.current) {
+          RBCsRef.current.forEach((rbc) => {
+            rbc.cx = random(0, canvasWidth);
+          });
+          hasScatteredRef.current = true;
         }
 
         RBCsRef.current.forEach((rbc) => {

@@ -1,7 +1,13 @@
-import BloodVessel from "@/components/BloodVessel";
+import Header from "@/components/Header";
+import Hero from "@/components/Hero";
 
 function App() {
-  return <BloodVessel />;
+  return (
+    <div className="siteContainer">
+      <Header />
+      <Hero />
+    </div>
+  );
 }
 
 export default App;

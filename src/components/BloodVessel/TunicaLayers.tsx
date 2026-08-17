@@ -7,6 +7,7 @@ import { VesselRatiosContext } from "./VesselRatios";
 import { range } from "lodash";
 import { normalize } from "../../app/utils";
 import createNoiseGenerator from "../../vendor/noise.vendor";
+import { TUNICA_COLORS } from "@/colors";
 
 const NUM_OF_POINTS = 300;
 const Y_VARIATION = 10;
@@ -30,9 +31,12 @@ export default function TunicaLayers() {
         const unitHeight = canvasHeight / totalParts;
 
         const tunicaLayers = [
-          { height: ratios.adventitia * unitHeight, color: "hsl(32deg 35% 55%)" },
-          { height: ratios.media * unitHeight, color: "hsl(355deg 55% 40%)" },
-          { height: ratios.intima * unitHeight, color: "hsl(340deg 60% 70%)" },
+          {
+            height: ratios.adventitia * unitHeight,
+            color: TUNICA_COLORS.adventitia,
+          },
+          { height: ratios.media * unitHeight, color: TUNICA_COLORS.media },
+          { height: ratios.intima * unitHeight, color: TUNICA_COLORS.intima },
         ];
 
         const points: { x: number; y: number }[] = [];

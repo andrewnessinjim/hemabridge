@@ -2,9 +2,9 @@
 
 import React from "react";
 import { CanvasContext } from "../Canvas";
+import { LUMEN_COLOR } from "@/colors";
 
 const LUMEN_ORDER = -10;
-const LUMEN_COLOR = "hsl(353 70% 30%)";
 
 export default function Lumen() {
   const canvasContextValue = React.useContext(CanvasContext);
