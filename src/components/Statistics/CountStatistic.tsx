@@ -1,5 +1,5 @@
 import * as React from "react";
-import styles from "./countStatistic.module.css";
+import styles from "./CountStatistic.module.css";
 import useIsOnScreen from "@/hooks/useIsOnScreen";
 
 import { motion } from "motion/react";

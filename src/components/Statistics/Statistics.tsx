@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import CountStatistic from "./CountStatistic";
-import styles from "./countStatistics.module.css";
+import styles from "./Statistics.module.css";
 
 interface Statistic {
   count: number;
@@ -51,7 +51,7 @@ function CountStatistics() {
       <p className="narrowTextBlock">
         Biology provides the foundation. Engineering provides new possibilities.
         At Hemabridges, we bring the two together to explore what becomes
-        possible when technology works alongside the body's natural mechanisms
+        possible when technology works alongside the body&apos;s natural mechanisms
       </p>
       <div className={styles.countStatisticsWrapper}>
         {statistics.map((statistic) => (
