@@ -14,9 +14,9 @@ const MotionLink = motion.create(Link);
 
 const enterTransition: Transition = {
   type: "spring",
-  // duration: 5
   stiffness: 120,
   damping: 10,
+  restDelta: 0.005,
 };
 
 const exitTransition: Transition = {

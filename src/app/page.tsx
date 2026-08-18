@@ -2,7 +2,7 @@ import CountStatistics from "@/components/Statistics";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Spacer from "@/components/Spacer";
-import Books from "@/components/Books";
+import Books from "@/components/BooksSection";
 
 function App() {
   return (
