@@ -1,3 +1,23 @@
 .wrapper {
   flex: 1;
 }
+
+.tagline {
+  font-weight: var(--font-weight-extrabold);
+  font-size: var(--text-5xl);
+  color: white;
+  max-width: 600px;
+}
+
+.text {
+  max-width: 390px;
+}
+
+.hema {
+  color: var(--primary-600);
+}
+
+.bridges {
+  color: var(--secondary-600);
+}
+

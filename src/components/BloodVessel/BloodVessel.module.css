@@ -4,9 +4,7 @@
 }
 
 .canvas {
-  width: 500px;
-  height: 500px;
-  /* aspect-ratio: 2 / 1.7320508; */
+  width: 400px;
+  aspect-ratio: 1 / 1;
   display: block;
-  /* clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%); */
 }

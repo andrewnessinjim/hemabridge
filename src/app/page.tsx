@@ -1,12 +1,15 @@
 import CountStatistics from "@/components/Statistics";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
+import Spacer from "@/components/Spacer";
 
 function App() {
   return (
     <div>
       <Header />
+      <Spacer size={20} />
       <Hero />
+      <Spacer size={32} />
       <CountStatistics />
     </div>
   );
