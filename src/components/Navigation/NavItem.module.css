@@ -1,0 +1,22 @@
+.wrapper {
+  font-weight: var(--font-weight-bold);
+  position: relative;
+  cursor: pointer;
+  padding: var(--space-1) var(--space-3);
+}
+
+.underline {
+    height: 2px;
+    background: var(--secondary-600);
+}
+
+.text {
+  display: block;
+}
+
+.cover {
+  padding: var(--space-1) var(--space-3);
+  position: absolute;
+  inset: 0;
+  color: var(--primary-600);
+}

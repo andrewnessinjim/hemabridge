@@ -133,6 +133,8 @@ a {
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
+  padding-left: var(--space-12);
+  padding-right: var(--space-12);
 }
 
 .siteNarrowContainer {

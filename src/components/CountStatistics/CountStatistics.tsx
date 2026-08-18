@@ -45,7 +45,7 @@ function CountStatistics() {
   return (
     <div className={`siteNarrowContainer ${styles.wrapper}`}>
       <div>
-        <h1>Statistics</h1>
+        <h1 id="statistics-heading">Statistics</h1>
         <h2>From ideas to impact.</h2>
       </div>
       <p className="narrowTextBlock">
