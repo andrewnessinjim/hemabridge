@@ -4,6 +4,10 @@
 }
 
 .countTile {
+  display: flex;
+}
+
+.content {
   height: var(--tile-size);
   aspect-ratio: 1/1;
   background: var(--primary-200);
@@ -16,7 +20,12 @@
   color: var(--neutral-900);
   gap: 16px;
   position: relative;
-  border-right: 10px solid var(--primary-500);
+}
+
+.contentBorder {
+  width: 10px;
+  background-color: var(--primary-500);
+  height: 100%;
 }
 
 .label {
@@ -35,8 +44,15 @@
 }
 
 .descriptionPanel {
-  max-width: 700px;
+  max-width: 400px;
   align-self: center;
-  border-left: 10px solid var(--secondary-500);
-  padding-left: var(--space-8);
+  /* border-left: 10px solid var(--secondary-500); */
+  /* padding-left: var(--space-8); */
+  display: flex;
+  gap: var(--space-6)
+}
+
+.descriptionBorder {
+  min-width: 10px;
+  background: var(--secondary-500);
 }
