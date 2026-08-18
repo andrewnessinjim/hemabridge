@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import CountStatistic from "./CountStatistic";
+import SectionIntro from "@/components/SectionIntro";
 import styles from "./Statistics.module.css";
 
 interface Statistic {
@@ -44,15 +45,12 @@ const statistics: Statistic[] = [
 function CountStatistics() {
   return (
     <div className={`siteNarrowContainer ${styles.wrapper}`}>
-      <div>
-        <h1 id="statistics-heading">Statistics</h1>
-        <h2>From ideas to impact.</h2>
-      </div>
-      <p className="narrowTextBlock">
-        Biology provides the foundation. Engineering provides new possibilities.
-        At Hemabridges, we bring the two together to explore what becomes
-        possible when technology works alongside the body&apos;s natural mechanisms
-      </p>
+      <SectionIntro
+        headingId="statistics-heading"
+        heading="Statistics"
+        subheading="From ideas to impact."
+        description="Biology provides the foundation. Engineering provides new possibilities. At Hemabridges, we bring the two together to explore what becomes possible when technology works alongside the body's natural mechanisms"
+      />
       <div className={styles.countStatisticsWrapper}>
         {statistics.map((statistic) => (
           <CountStatistic key={statistic.label} {...statistic} />

@@ -2,6 +2,7 @@ import CountStatistics from "@/components/Statistics";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Spacer from "@/components/Spacer";
+import Books from "@/components/Books";
 
 function App() {
   return (
@@ -11,6 +12,8 @@ function App() {
       <Hero />
       <Spacer size={32} />
       <CountStatistics />
+      <Spacer size={32} />
+      <Books />
     </div>
   );
 }
