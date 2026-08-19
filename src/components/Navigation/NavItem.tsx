@@ -21,7 +21,7 @@ const enterTransition: Transition = {
 
 const exitTransition: Transition = {
   type: "spring",
-  duration: 1.5
+  duration: 1.5,
 };
 
 const textVariants: Variants = {
@@ -59,24 +59,23 @@ export default function NavItem({ children, ...delegated }: Props) {
       animate="rest"
       whileHover="hover"
     >
-      <MotionLink
-        {...delegated}
-        className={styles.text}
-        variants={textVariants}
-      >
-        {children}
-      </MotionLink>
-      <motion.span
-        className={styles.cover}
-        variants={coverVariants}
-        aria-hidden
-      >
-        {children}
-      </motion.span>
-      <motion.div
-        className={styles.underline}
-        variants={underlineVariants}
-      ></motion.div>
+      <div className={styles.textWrapper}>
+        <MotionLink
+          {...delegated}
+          className={styles.text}
+          variants={textVariants}
+        >
+          {children}
+        </MotionLink>
+        <motion.span
+          className={styles.cover}
+          variants={coverVariants}
+          aria-hidden
+        >
+          {children}
+        </motion.span>
+        <motion.div className={styles.underline} variants={underlineVariants} />
+      </div>
     </motion.li>
   );
 }

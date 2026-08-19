@@ -1,21 +1,33 @@
 .wrapper {
   font-weight: var(--font-weight-bold);
-  position: relative;
   cursor: pointer;
   padding: var(--space-1) var(--space-3);
 }
 
+.textWrapper {
+  position: relative;
+  &:focus-within {
+    outline: 2px solid white;
+    outline-offset: 3px;
+  }
+}
 .underline {
-    height: 2px;
-    background: var(--secondary-600);
+  height: 2px;
+  background: var(--secondary-600);
+  position: absolute;
+  width: 100%;
+  bottom: 0;
 }
 
 .text {
   display: block;
+  &:focus {
+    outline: none;
+  }
 }
 
 .cover {
-  padding: var(--space-1) var(--space-3);
+  // padding: var(--space-1) var(--space-3);
   position: absolute;
   inset: 0;
   color: var(--primary-600);
