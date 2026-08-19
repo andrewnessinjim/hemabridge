@@ -9,14 +9,16 @@ function App() {
   return (
     <div>
       <Header />
-      <Spacer size={20} />
-      <Hero />
-      <Spacer size={32} />
-      <HowItWorksSection />
-      <Spacer size={32} />
-      <Books />
-      <Spacer size={32} />
-      <CountStatistics />
+      <main>
+        <Spacer size={20} />
+        <Hero />
+        <Spacer size={32} />
+        <HowItWorksSection />
+        <Spacer size={32} />
+        <Books />
+        <Spacer size={32} />
+        <CountStatistics />
+      </main>
     </div>
   );
 }
