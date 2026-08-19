@@ -1,0 +1,113 @@
+@keyframes contentShow {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  width: 100%;
+  max-width: 700px;
+  align-self: center;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.label {
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--text-sm);
+  color: var(--foreground);
+}
+
+.input,
+.textarea,
+.selectTrigger {
+  border: 1px solid var(--neutral-200);
+  border-radius: 4px;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-sm);
+  font-family: inherit;
+  color: var(--foreground);
+  background: var(--background);
+}
+
+.input:focus,
+.textarea:focus,
+.selectTrigger:focus {
+  outline: none;
+  border-color: var(--secondary-600);
+  box-shadow: 0 0 0 3px var(--secondary-200);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.selectTrigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+}
+
+.selectIcon {
+  color: var(--neutral-400);
+}
+
+.selectContent {
+  background: var(--background);
+  border-radius: 4px;
+  box-shadow: var(--shadow-6, 0 4px 16px rgba(9, 11, 14, 0.2));
+  overflow: hidden;
+  z-index: 10;
+  animation: contentShow 150ms ease-out;
+}
+
+.selectViewport {
+  padding: var(--space-2);
+}
+
+.selectItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-2) var(--space-3);
+  border-radius: 2px;
+  font-size: var(--text-sm);
+  color: var(--foreground);
+  cursor: pointer;
+  outline: none;
+}
+
+.selectItem[data-highlighted] {
+  background: var(--primary-100);
+  color: var(--primary-600);
+}
+
+.selectItemIndicator {
+  color: var(--primary-600);
+}
+
+.confirmation {
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--secondary-600);
+  align-self: center;
+  text-align: center;
+}

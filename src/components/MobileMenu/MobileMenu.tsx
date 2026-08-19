@@ -1,4 +1,4 @@
-import CTAButton from "../CTAButton";
+import PartnerCTAButton from "../PartnerCTAButton";
 import React from "react";
 import styles from "./MobileMenu.module.scss";
 
@@ -6,7 +6,7 @@ function MobileMenu() {
   return (
     <ul className={styles.wrapper}>
       <li>
-        <CTAButton size="small">Partner With Us</CTAButton>
+        <PartnerCTAButton size="small">Partner With Us</PartnerCTAButton>
       </li>
     </ul>
   );

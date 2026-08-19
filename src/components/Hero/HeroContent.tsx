@@ -1,6 +1,6 @@
 "use client";
 
-import CTAButton from "../CTAButton";
+import PartnerCTAButton from "../PartnerCTAButton";
 import Spacer from "../Spacer";
 import styles from "./HeroContent.module.scss";
 import { motion } from "motion/react";
@@ -21,7 +21,7 @@ export default function HeroContent() {
       <Spacer size={6} />
 
       <div className={styles.ctaButtonContainer}>
-        <CTAButton>Partner With Us</CTAButton>
+        <PartnerCTAButton>Partner With Us</PartnerCTAButton>
       </div>
     </section>
   );

@@ -3,7 +3,7 @@
 import * as React from "react";
 import styles from "./DesktopMenu.module.scss";
 import NavItem from "./NavItem";
-import CTAButton from "../CTAButton";
+import PartnerCTAButton from "../PartnerCTAButton";
 
 function DesktopMenu() {
   return (
@@ -13,7 +13,7 @@ function DesktopMenu() {
       <NavItem href="#">Statistics</NavItem>
       {/* <NavItem href="#">Partners</NavItem> */}
       <li>
-        <CTAButton size="small">Partner With Us</CTAButton>
+        <PartnerCTAButton size="small">Partner With Us</PartnerCTAButton>
       </li>
     </ul>
   );
