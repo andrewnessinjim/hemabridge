@@ -42,7 +42,7 @@ function CountStatistic({ count, label, description }: Props) {
         initial="away"
         animate="away"
         whileInView="touch"
-        viewport={{ margin: "-20%", once: true }}
+        viewport={{ margin: "-30px", once: true }}
         transition={{
           type: "spring",
           duration: 0.75,
