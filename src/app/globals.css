@@ -113,11 +113,16 @@ h6 {
   line-height: 1.2;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-input, button, textarea, select {
+input,
+button,
+textarea,
+select {
   font: inherit;
 }
 
@@ -140,14 +145,24 @@ a {
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: var(--space-12);
-  padding-right: var(--space-12);
+  padding-left: var(--space-6);
+  padding-right: var(--space-6);
 }
 
 .siteNarrowContainer {
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
+  padding-left: var(--space-6);
+  padding-right: var(--space-6);
+}
+
+@media (max-width: 37.5rem) {
+  .siteWideContainer,
+  .siteNarrowContainer {
+    padding-left: var(--space-2);
+    padding-right: var(--space-2);
+  }
 }
 
 h1 {
