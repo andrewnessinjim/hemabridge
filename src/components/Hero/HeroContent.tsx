@@ -18,7 +18,9 @@ export default function HeroContent() {
       </p>
       <Spacer size={6} />
 
-      <CTAButton>Partner With Us</CTAButton>
+      <div className={styles.ctaButtonContainer}>
+        <CTAButton>Partner With Us</CTAButton>
+      </div>
     </section>
   );
 }

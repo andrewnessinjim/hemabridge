@@ -1,7 +1,11 @@
 import _ from "lodash";
 import React from "react";
 import { CanvasContext } from "../Canvas";
-import { VesselRatiosContext } from "./VesselRatios";
+import {
+  VesselRatiosContext,
+  getWallInnerEdgeFraction,
+} from "./VesselRatios";
+import { ClotContext, CLOT_SITE_X_FRACTION } from "./ClotContext";
 import { clampedNormalize } from "@/app/utils";
 import createNoiseGenerator from "../../vendor/noise.vendor";
 
@@ -12,12 +16,21 @@ type Props<T> = {
     y: number,
     velocity: number,
     state: T,
+    totalTime: number,
   ) => void;
   createParticleState: () => T;
   count: number;
   radius: number;
   drift: number;
   order?: number;
+  /** When true, particles near the clot site get pulled in and pile up once clotting is triggered. */
+  clottable?: boolean;
+  /** Radius (px) within which a particle gets captured by the clot site. */
+  captureRadius?: number;
+  /** How quickly a captured particle eases toward its settled pile position, per frame (0-1). */
+  settleEase?: number;
+  /** Transforms a particle's state once it's captured, so drawParticle can render its clot look. */
+  onCapture?: (state: T) => T;
 };
 
 const { simplex2 } = createNoiseGenerator(800);
@@ -27,7 +40,14 @@ type ParticleState<T> = {
   cyFraction: number;
   velocity: number;
   state: T;
+  captured?: boolean;
+  settleX?: number;
+  settleCyFraction?: number;
 };
+
+const PILE_SPREAD_X = 26;
+const PILE_DEPTH_MIN = 2;
+const PILE_DEPTH_MAX = 22;
 
 export default function Flow<T>({
   drawParticle,
@@ -36,9 +56,14 @@ export default function Flow<T>({
   radius,
   drift,
   order = 0,
+  clottable = false,
+  captureRadius = radius * 2.5,
+  settleEase = 0.1,
+  onCapture,
 }: Props<T>) {
   const canvasContextValue = React.useContext(CanvasContext);
   const ratios = React.useContext(VesselRatiosContext);
+  const clotContextValue = React.useContext(ClotContext);
 
   const totalParts =
     2 * (ratios.intima + ratios.media + ratios.adventitia) + ratios.lumen;
@@ -46,6 +71,7 @@ export default function Flow<T>({
     (ratios.intima + ratios.media + ratios.adventitia) / totalParts;
   const lumenMinFraction = wallFraction;
   const lumenMaxFraction = 1 - wallFraction;
+  const wallInnerEdgeFraction = getWallInnerEdgeFraction(ratios);
 
   const particlesRef = React.useRef<ParticleState<T>[]>([]);
 
@@ -59,7 +85,15 @@ export default function Flow<T>({
     const unregister = register(
       ({ ctx, canvasWidth, canvasHeight, totalTime }) => {
         const radiusFraction = radius / canvasHeight;
-        const adjustedLumenMin = lumenMinFraction + radiusFraction;
+        // Once clotting starts, clottable particles are allowed to drift
+        // all the way to the true wall edge (rather than the more
+        // conservative default lumen boundary) so they can actually reach
+        // the capture site at the rupture.
+        const flowLumenMinFraction =
+          clottable && clotContextValue.isClotting
+            ? wallInnerEdgeFraction
+            : lumenMinFraction;
+        const adjustedLumenMin = flowLumenMinFraction + radiusFraction;
         const adjustedLumenMax = lumenMaxFraction - radiusFraction;
 
         if (isInitialRender.current) {
@@ -81,7 +115,34 @@ export default function Flow<T>({
             particle.cyFraction * canvasHeight,
             particle.velocity,
             particle.state,
+            totalTime,
           );
+
+          if (clottable && (particle.captured || clotContextValue.isClotting)) {
+            if (!particle.captured) {
+              const siteX = CLOT_SITE_X_FRACTION * canvasWidth;
+              const siteY = wallInnerEdgeFraction * canvasHeight;
+              const particleY = particle.cyFraction * canvasHeight;
+              const distance = Math.hypot(siteX - particle.x, siteY - particleY);
+
+              if (distance < captureRadius) {
+                particle.captured = true;
+                particle.settleX = siteX + _.random(-PILE_SPREAD_X, PILE_SPREAD_X);
+                particle.settleCyFraction =
+                  (siteY + _.random(PILE_DEPTH_MIN, PILE_DEPTH_MAX)) / canvasHeight;
+                particle.state = onCapture ? onCapture(particle.state) : particle.state;
+              }
+            }
+
+            if (particle.captured) {
+              particle.x += ((particle.settleX ?? particle.x) - particle.x) * settleEase;
+              particle.cyFraction +=
+                ((particle.settleCyFraction ?? particle.cyFraction) -
+                  particle.cyFraction) *
+                settleEase;
+              return;
+            }
+          }
 
           particle.x += particle.velocity;
 
@@ -116,12 +177,18 @@ export default function Flow<T>({
     canvasContextValue,
     lumenMinFraction,
     lumenMaxFraction,
+    wallInnerEdgeFraction,
     drawParticle,
     createParticleState,
     radius,
     count,
     drift,
     order,
+    clottable,
+    captureRadius,
+    settleEase,
+    onCapture,
+    clotContextValue.isClotting,
   ]);
 
   return <React.Fragment />;

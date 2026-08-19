@@ -1,5 +1,9 @@
-const RIM_RADIUS = 18;
-const DEPRESSION_RADIUS = 12;
+import _ from "lodash";
+
+const MIN_RIM_RADIUS = 14;
+const MAX_RIM_RADIUS = 18;
+const MIN_DEPRESSION_RADIUS = 8;
+const MAX_DEPRESSION_RADIUS = 12;
 
 export const RBC_COLORS = {
   rimInner: "hsl(353 70% 20%)",
@@ -10,23 +14,34 @@ export const RBC_COLORS = {
 };
 
 export function createRBCState() {
-  return undefined;
+  return {
+    rimRadius: _.random(MIN_RIM_RADIUS, MAX_RIM_RADIUS, true),
+    depressionRadius: _.random(
+      MIN_DEPRESSION_RADIUS,
+      MAX_DEPRESSION_RADIUS,
+      true,
+    ),
+  };
 }
+
+type RBCParticleState = ReturnType<typeof createRBCState>;
 
 export default function drawRBC(
   ctx: CanvasRenderingContext2D,
   cx: number,
   cy: number,
+  _: number,
+  state: RBCParticleState,
 ) {
   ctx.beginPath();
-  ctx.arc(cx, cy, RIM_RADIUS, 0, Math.PI * 2);
+  ctx.arc(cx, cy, state.rimRadius, 0, Math.PI * 2);
   const outerGradient = ctx.createRadialGradient(
     cx,
     cy,
-    DEPRESSION_RADIUS,
+    state.depressionRadius,
     cx,
     cy,
-    RIM_RADIUS,
+    state.rimRadius,
   );
   outerGradient.addColorStop(0, RBC_COLORS.rimInner);
   outerGradient.addColorStop(0.5, RBC_COLORS.rimMid);
@@ -42,7 +57,7 @@ export default function drawRBC(
     6,
     cx,
     cy,
-    DEPRESSION_RADIUS,
+    state.depressionRadius,
   );
   gradient.addColorStop(0, RBC_COLORS.depressionCenter);
   gradient.addColorStop(0.99, RBC_COLORS.depressionEdge);
