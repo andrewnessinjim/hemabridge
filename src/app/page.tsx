@@ -11,9 +11,9 @@ function App() {
       <Spacer size={20} />
       <Hero />
       <Spacer size={32} />
-      <CountStatistics />
-      <Spacer size={32} />
       <Books />
+      <Spacer size={32} />
+      <CountStatistics />
     </div>
   );
 }

@@ -2,9 +2,15 @@
   /* background: white; */
 }
 
-.imageButton {
+.imageWrapper {
   width: 320px;
   aspect-ratio: 390 / 561;
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+
+.imageButton {
   display: block;
   position: relative;
   background: transparent;
