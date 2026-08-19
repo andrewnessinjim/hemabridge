@@ -162,8 +162,8 @@ a {
 @media (max-width: $phone) {
   .siteWideContainer,
   .siteNarrowContainer {
-    padding-left: var(--space-2);
-    padding-right: var(--space-2);
+    padding-left: var(--space-4);
+    padding-right: var(--space-4);
   }
 }
 
@@ -181,4 +181,8 @@ h2 {
 
 .narrowTextBlock {
   width: 350px;
+
+  @media (max-width: $phone) {
+    width: revert;
+  }
 }

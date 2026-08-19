@@ -4,7 +4,10 @@ import * as React from "react";
 import styles from "./CTAButton.module.scss";
 import { motion, Variants } from "motion/react";
 
-type Props = React.ComponentProps<"button"> & {
+type Props = Omit<
+  React.ComponentProps<"button">,
+  "onDrag" | "onDragStart" | "onDragEnd" | "onAnimationStart" | "onAnimationEnd"
+> & {
   size?: "small" | "medium";
 };
 
@@ -19,6 +22,12 @@ function graphicVariants(position: "top" | "bottom", offset: number): Variants {
     rest: { opacity: 0, y: position === "bottom" ? offset : -offset, scaleY: 1 },
   };
 }
+
+const buttonVariants: Variants = {
+  rest: { borderRadius: 2 },
+  hover: { borderRadius: 0 },
+};
+
 function CTAButton({ size = "medium", ...props }: Props) {
   const graphicSize = size === "small" ? styles.graphicSmall : styles.graphicMedium;
   const graphicOffset = GRAPHIC_OFFSET[size];
@@ -34,7 +43,11 @@ function CTAButton({ size = "medium", ...props }: Props) {
         className={`${styles.graphic} ${styles.graphicTop} ${graphicSize}`}
         variants={graphicVariants("top", graphicOffset)}
       ></motion.div>
-      <button className={`${styles.button} ${styles[size]}`} {...props}></button>
+      <motion.button
+        className={`${styles.button} ${styles[size]}`}
+        variants={buttonVariants}
+        {...props}
+      ></motion.button>
       <motion.div
         className={`${styles.graphic} ${styles.graphicBottom} ${graphicSize}`}
         variants={graphicVariants("bottom", graphicOffset)}
