@@ -57,9 +57,9 @@ export default function RBC() {
             cy,
             RIM_RADIUS,
           );
-          outerGradient.addColorStop(0, RBC_COLORS.rimOuter);
+          outerGradient.addColorStop(0, RBC_COLORS.rimInner);
           outerGradient.addColorStop(0.5, RBC_COLORS.rimMid);
-          outerGradient.addColorStop(1, RBC_COLORS.rimInner);
+          outerGradient.addColorStop(1, RBC_COLORS.rimOuter);
           ctx.fillStyle = outerGradient;
           ctx.fill();
 
