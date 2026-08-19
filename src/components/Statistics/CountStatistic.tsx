@@ -16,7 +16,6 @@ const descriptionVariants: Variants = {
 
 function CountStatistic({ count, label, description }: Props) {
   const [hasTouched, setHasTouched] = React.useState(false);
-  console.log({ hasTouched });
 
   return (
     <div className={`${styles.wrapper} `}>
@@ -49,7 +48,6 @@ function CountStatistic({ count, label, description }: Props) {
           bounce: 0,
         }}
         onAnimationComplete={(variant) => {
-          console.log({ variant });
           if (variant === "touch") {
             setHasTouched(true);
           }

@@ -3,7 +3,7 @@
 import React from "react";
 import { CanvasContext } from "@/components/Canvas";
 import { VesselRatiosContext } from "./VesselRatios";
-import { random, range } from "lodash";
+import _, { random, range } from "lodash";
 import {
   convertPolarToCartesian,
   normalize,
@@ -21,7 +21,7 @@ const NUM_NUCLEUS_POINTS = 20;
 const NUCLEUS_NOISE_ZOOM = 2;
 
 const WBC_RADIUS = 24;
-const Y_VARIATION = 0.0005;
+const Y_VARIATION = 0.001;
 const ROTATION_SPEED = 0.005; // radians of spin per pixel of forward movement
 
 const { simplex2: driftNoise } = createNoiseGenerator(4321);
@@ -39,6 +39,7 @@ function generateBlobPoints(
     // Gives a circular dimension for the noise instead of a linear one
     const noiseX = Math.cos(angleRadians) * noiseZoom;
     const noiseY = Math.sin(angleRadians) * noiseZoom;
+
     const distance = normalize(
       simplex2(noiseX, noiseY),
       -1,
@@ -55,18 +56,27 @@ function generateBlobPoints(
 }
 
 function createWBC(cyFraction: number) {
-  const initCx = random(-45, -90);
+  const spawnCx = random(-45, -90);
+  const minWBCDistance = random(16, 20);
+  const maxWBCDistance = minWBCDistance + 4;
+  const minNucleusDistance = random(4, 6);
+  const maxNucleusDistance = minNucleusDistance + 2;
   return {
-    points: generateBlobPoints(NUM_WBC_POINTS, 20, 24, WMC_NOISE_ZOOM),
+    points: generateBlobPoints(
+      NUM_WBC_POINTS,
+      minWBCDistance,
+      maxWBCDistance,
+      WMC_NOISE_ZOOM,
+    ),
     nucleusPoints: generateBlobPoints(
       NUM_NUCLEUS_POINTS,
-      6,
-      8,
+      minNucleusDistance,
+      maxNucleusDistance,
       NUCLEUS_NOISE_ZOOM,
     ),
     nucleusAngle: random(0, 2 * Math.PI),
     nucleusDistance: random(4, 10),
-    cx: initCx,
+    cx: spawnCx,
     cyFraction,
     velocity: random(1, 5, true),
     rotation: random(0, 2 * Math.PI),
@@ -142,6 +152,7 @@ export default function WBC() {
           hasScatteredRef.current = true;
         }
 
+        const outOfViewWBCs: Set<WBCState> = new Set();
         WBCsRef.current.forEach((wbc) => {
           drawWBC(wbc, wbc.cx, wbc.cyFraction * canvasHeight);
           wbc.cx += wbc.velocity;
@@ -165,9 +176,17 @@ export default function WBC() {
           );
 
           if (wbc.cx > canvasWidth + WBC_RADIUS) {
-            wbc.cx = random(-45, -90);
-            wbc.cyFraction = random(lumenMinFraction, lumenMaxFraction);
+            outOfViewWBCs.add(wbc);
           }
+        });
+
+        if (outOfViewWBCs.size > 0) {
+          _.remove(WBCsRef.current, (wbc) => outOfViewWBCs.has(wbc));
+        }
+        range(outOfViewWBCs.size).forEach(() => {
+          WBCsRef.current.push(
+            createWBC(random(lumenMinFraction, lumenMaxFraction)),
+          );
         });
       },
       1,

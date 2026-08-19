@@ -4,7 +4,7 @@
 }
 
 .canvas {
-  width: 400px;
-  aspect-ratio: 1 / 1;
+  width:100%;
+  /* aspect-ratio: 1 / 1; */
   display: block;
 }
