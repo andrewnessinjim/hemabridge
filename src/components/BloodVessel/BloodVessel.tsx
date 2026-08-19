@@ -4,12 +4,10 @@ import * as React from "react";
 import Canvas from "../Canvas";
 import styles from "./BloodVessel.module.css";
 import TunicaLayers from "./TunicaLayers";
-import RBC from "./RBC";
-import WBC from "./WBC";
+import WBCFlow from "./WBCFlow";
+import RBCFlow from "./RBCFlow";
 import Lumen from "./Lumen";
 import { VesselRatiosContext, vesselRatios } from "./VesselRatios";
-import Flow from "./Flow";
-import drawRBC from "./drawRBC";
 
 function BloodVessel() {
   return (
@@ -19,9 +17,8 @@ function BloodVessel() {
           {/* <Box /> */}
           <Lumen />
           <TunicaLayers />
-          <Flow count={30} drawParticle={drawRBC} radius={18} />
-          {/* <RBC /> */}
-          <WBC />
+          <RBCFlow />
+          <WBCFlow />
         </Canvas>
       </div>
     </VesselRatiosContext.Provider>

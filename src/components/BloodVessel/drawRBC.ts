@@ -1,7 +1,5 @@
-const NUM_RBC = 50;
 const RIM_RADIUS = 18;
 const DEPRESSION_RADIUS = 12;
-const Y_VARIATION = 0.0005;
 
 export const RBC_COLORS = {
   rimInner: "hsl(353 70% 20%)",
@@ -10,6 +8,10 @@ export const RBC_COLORS = {
   depressionCenter: "hsl(353 70% 35%)",
   depressionEdge: "hsl(353 89.8% 24%)",
 };
+
+export function createRBCState() {
+  return undefined;
+}
 
 export default function drawRBC(
   ctx: CanvasRenderingContext2D,
