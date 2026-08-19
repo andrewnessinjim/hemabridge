@@ -1,13 +1,16 @@
 import * as React from "react";
 import styles from "./Header.module.scss";
 import Logo from "../Logo";
-import Navigation from "../Navigation";
+import DesktopMenu from "../DesktopMenu";
+import MobileMenu from "../MobileMenu";
 
 function Header() {
   return (
     <div className={`${styles.wrapper} siteWideContainer`}>
       <Logo />
-      <Navigation />
+
+      <DesktopMenu />
+      <MobileMenu />
     </div>
   );
 }

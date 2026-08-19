@@ -1,7 +1,13 @@
+@use "../../styles/breakpoints" as *;
+
 .wrapper {
   font-weight: var(--font-weight-extrabold);
   display: flex;
   font-size: var(--text-3xl);
+
+  @media (max-width: $tablet) {
+    font-size: var(--text-xl);
+  }
 }
 
 .hema {

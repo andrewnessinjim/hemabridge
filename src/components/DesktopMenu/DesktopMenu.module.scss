@@ -1,0 +1,13 @@
+@use "../../styles/breakpoints" as *;
+
+.wrapper {
+  list-style: none;
+  display: flex;
+  gap: var(--space-4);
+}
+
+@media (max-width: $tablet) {
+  .wrapper {
+    display: none;
+  }
+}

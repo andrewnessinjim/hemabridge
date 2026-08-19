@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import styles from "./CTAButton.module.scss";
 import { motion, Variants } from "motion/react";
