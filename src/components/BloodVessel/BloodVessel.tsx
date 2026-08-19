@@ -8,6 +8,8 @@ import RBC from "./RBC";
 import WBC from "./WBC";
 import Lumen from "./Lumen";
 import { VesselRatiosContext, vesselRatios } from "./VesselRatios";
+import Flow from "./Flow";
+import drawRBC from "./drawRBC";
 
 function BloodVessel() {
   return (
@@ -17,7 +19,8 @@ function BloodVessel() {
           {/* <Box /> */}
           <Lumen />
           <TunicaLayers />
-          <RBC />
+          <Flow count={30} drawParticle={drawRBC} radius={18} />
+          {/* <RBC /> */}
           <WBC />
         </Canvas>
       </div>
