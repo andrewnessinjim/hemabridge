@@ -1,13 +1,18 @@
 @use "../../styles/breakpoints" as *;
 
 .wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: var(--background);
+}
+
+.inner {
   padding-top: var(--space-6);
   padding-bottom: var(--space-6);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: sticky;
-  top: 0;
 
   @media (max-width: $tablet){
     padding-top: var(--space-4);

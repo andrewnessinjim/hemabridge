@@ -6,11 +6,13 @@ import MobileMenu from "../MobileMenu";
 
 function Header() {
   return (
-    <div className={`${styles.wrapper} siteWideContainer`}>
-      <Logo />
+    <div className={styles.wrapper}>
+      <div className={`${styles.inner} siteWideContainer`}>
+        <Logo />
 
-      <DesktopMenu />
-      <MobileMenu />
+        <DesktopMenu />
+        <MobileMenu />
+      </div>
     </div>
   );
 }
