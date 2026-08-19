@@ -2,10 +2,9 @@
 
 import * as React from "react";
 import Canvas, { CanvasContext } from "../Canvas";
-import styles from "./Hemabridge.module.scss";
+import styles from "./HemabridgeTablet.module.scss";
 import drawHemabridge, { HemabridgeState } from "../BloodVessel/drawHemabridge";
 import {
-  createRestingParticleState,
   createMidGrowParticleState,
   createSettledParticleState,
   MID_GROW_ELAPSED,
@@ -17,38 +16,31 @@ type Particle = {
   offsetY: number;
   scale: number;
   state: HemabridgeState;
-  // If set, elapsedSinceClot is re-pinned to this every frame instead of
-  // being left to grow with real time — keeps the particle frozen in one
-  // state rather than animating.
-  pinnedElapsed?: number;
+  pinnedElapsed: number;
 };
 
+// A scaled-down pair (settled + mid-grow) of the desktop 3-particle
+// cluster, for the tablet-width range where there isn't room for all 3.
 function buildParticles(): Particle[] {
   return [
     {
-      offsetX: 420,
-      offsetY: 260,
-      scale: 7,
+      offsetX: 273,
+      offsetY: 165,
+      scale: 4.5,
       state: createSettledParticleState(),
       pinnedElapsed: SETTLED_ELAPSED,
     },
     {
-      offsetX: 110,
-      offsetY: 130,
-      scale: 4,
+      offsetX: 72,
+      offsetY: 85,
+      scale: 2.5,
       state: createMidGrowParticleState(),
       pinnedElapsed: MID_GROW_ELAPSED,
-    },
-    {
-      offsetX: 140,
-      offsetY: 400,
-      scale: 3,
-      state: createRestingParticleState(),
     },
   ];
 }
 
-function HemabridgeDrawing() {
+function HemabridgeTabletDrawing() {
   const canvasContextValue = React.useContext(CanvasContext);
   const particlesRef = React.useRef(buildParticles());
 
@@ -60,9 +52,7 @@ function HemabridgeDrawing() {
     const unregister = register(({ ctx, totalTime }) => {
       particlesRef.current.forEach(
         ({ offsetX, offsetY, scale, state, pinnedElapsed }) => {
-          if (pinnedElapsed !== undefined) {
-            state.capturedAt = totalTime - pinnedElapsed;
-          }
+          state.capturedAt = totalTime - pinnedElapsed;
 
           ctx.save();
           ctx.translate(offsetX, offsetY);
@@ -79,11 +69,11 @@ function HemabridgeDrawing() {
   return <React.Fragment />;
 }
 
-export default function Hemabridge() {
+export default function HemabridgeTablet() {
   return (
     <div className={styles.wrapper}>
       <Canvas className={styles.canvas}>
-        <HemabridgeDrawing />
+        <HemabridgeTabletDrawing />
       </Canvas>
     </div>
   );

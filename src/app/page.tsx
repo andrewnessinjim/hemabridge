@@ -10,7 +10,6 @@ function App() {
     <div>
       <Header />
       <main>
-        <Spacer size={20} />
         <Hero />
         <Spacer size={32} />
         <HowItWorksSection />

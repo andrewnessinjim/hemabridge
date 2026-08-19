@@ -1,4 +1,15 @@
+@use "../../styles/breakpoints" as *;
+
 .wrapper {
   position: relative;
   display: flex;
+  margin-top: var(--space-20);
+  
+  @media (max-width: $tablet) {
+    margin-top: var(--space-12);
+  }
+
+  @media (max-width: $phone) {
+    margin-top: var(--space-4);
+  }
 }

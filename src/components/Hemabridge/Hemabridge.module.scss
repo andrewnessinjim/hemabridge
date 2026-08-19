@@ -4,7 +4,7 @@
   flex-shrink: 0;
   align-self: center;
 
-  @media (max-width: $tablet) {
+  @media (max-width: $tabletLarge) {
     display: none;
   }
 }
