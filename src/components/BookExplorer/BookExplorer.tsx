@@ -1,5 +1,5 @@
 import * as React from "react";
-import styles from "./BookExplorer.module.css";
+import styles from "./BookExplorer.module.scss";
 import { booksData } from "@/data";
 import Book from "./Book";
 

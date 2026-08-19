@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import styles from "./Navigation.module.css";
+import styles from "./Navigation.module.scss";
 import NavItem from "./NavItem";
 import CTAButton from "../CTAButton";
 

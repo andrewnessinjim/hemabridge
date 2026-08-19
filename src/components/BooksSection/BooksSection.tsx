@@ -1,6 +1,6 @@
 import * as React from "react";
 import SectionIntro from "../SectionIntro";
-import styles from "./BooksSection.module.css";
+import styles from "./BooksSection.module.scss";
 import BookExplorer from "../BookExplorer";
 import Spacer from "../Spacer";
 

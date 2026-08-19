@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import styles from "./Hero.module.css";
+import styles from "./Hero.module.scss";
 import HeroContent from "./HeroContent";
 
 function Hero() {

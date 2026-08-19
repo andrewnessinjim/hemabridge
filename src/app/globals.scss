@@ -1,3 +1,5 @@
+@use "../styles/breakpoints" as *;
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -157,7 +159,7 @@ a {
   padding-right: var(--space-6);
 }
 
-@media (max-width: 37.5rem) {
+@media (max-width: $phone) {
   .siteWideContainer,
   .siteNarrowContainer {
     padding-left: var(--space-2);

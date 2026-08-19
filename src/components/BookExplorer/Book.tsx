@@ -1,7 +1,7 @@
 "use client";
 
 import { BookData } from "@/data";
-import styles from "./Book.module.css";
+import styles from "./Book.module.scss";
 import Image from "next/image";
 import StyledDialog from "../StyledDialog";
 import { motion, Variants } from "motion/react";

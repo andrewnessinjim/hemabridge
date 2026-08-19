@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Dialog, VisuallyHidden } from "radix-ui";
-import styles from "./StyledDialog.module.css";
+import styles from "./StyledDialog.module.scss";
 
 type Props = {
   trigger: React.ReactNode;

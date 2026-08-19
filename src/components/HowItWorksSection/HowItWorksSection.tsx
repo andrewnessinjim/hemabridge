@@ -1,6 +1,6 @@
 import * as React from "react";
 import SectionIntro from "../SectionIntro";
-import styles from "./HowItWorksSection.module.css";
+import styles from "./HowItWorksSection.module.scss";
 import Spacer from "../Spacer";
 import BloodVessel from "../BloodVessel";
 

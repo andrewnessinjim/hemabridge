@@ -2,7 +2,7 @@
 
 import CTAButton from "../CTAButton";
 import Spacer from "../Spacer";
-import styles from "./HeroContent.module.css";
+import styles from "./HeroContent.module.scss";
 import { motion } from "motion/react";
 
 export default function HeroContent() {

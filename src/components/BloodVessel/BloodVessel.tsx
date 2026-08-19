@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Canvas from "../Canvas";
-import styles from "./BloodVessel.module.css";
+import styles from "./BloodVessel.module.scss";
 import TunicaLayers from "./TunicaLayers";
 import WBCFlow from "./WBCFlow";
 import RBCFlow from "./RBCFlow";

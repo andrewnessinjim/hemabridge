@@ -3,7 +3,7 @@
 import * as React from "react";
 import CountStatistic from "./CountStatistic";
 import SectionIntro from "@/components/SectionIntro";
-import styles from "./Statistics.module.css";
+import styles from "./Statistics.module.scss";
 import { statistics } from "@/data";
 
 function CountStatistics() {

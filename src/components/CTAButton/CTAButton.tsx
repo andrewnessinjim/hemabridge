@@ -1,5 +1,5 @@
 import * as React from "react";
-import styles from "./CTAButton.module.css";
+import styles from "./CTAButton.module.scss";
 import { motion, Variants } from "motion/react";
 
 type Props = React.ComponentProps<"button"> & {

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import * as React from "react";
 import { motion, Transition, Variants } from "motion/react";
-import styles from "./NavItem.module.css";
+import styles from "./NavItem.module.scss";
 
 type Props = Omit<
   React.ComponentProps<typeof Link>,
