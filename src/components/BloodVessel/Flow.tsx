@@ -1,13 +1,23 @@
 import _ from "lodash";
 import React from "react";
 import { CanvasContext } from "../Canvas";
-import {
-  VesselRatiosContext,
-  getWallInnerEdgeFraction,
-} from "./VesselRatios";
+import { vesselRatios, VesselRatios } from "./constants";
 import { ClotContext, CLOT_SITE_X_FRACTION } from "./ClotContextProvider";
 import { clampedNormalize } from "@/app/utils";
 import createNoiseGenerator from "../../vendor/noise.vendor";
+
+/**
+ * Fraction (of canvasHeight) of the true top wall/lumen boundary, as
+ * actually rendered by TunicaLayers. Half the outermost (adventitia)
+ * layer's stroke renders off-canvas above y=0, so the rendered boundary
+ * sits above the naive (intima+media+adventitia)/totalParts sum by half
+ * an adventitia-layer's height.
+ */
+function getWallInnerEdgeFraction(ratios: VesselRatios) {
+  const totalParts =
+    2 * (ratios.intima + ratios.media + ratios.adventitia) + ratios.lumen;
+  return (ratios.adventitia / 2 + ratios.media + ratios.intima) / totalParts;
+}
 
 type Props<T> = {
   drawParticle: (
@@ -62,7 +72,7 @@ export default function Flow<T>({
   onCapture,
 }: Props<T>) {
   const canvasContextValue = React.useContext(CanvasContext);
-  const ratios = React.useContext(VesselRatiosContext);
+  const ratios = vesselRatios;
   const clotContextValue = React.useContext(ClotContext);
 
   const totalParts =

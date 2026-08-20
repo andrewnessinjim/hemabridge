@@ -2,7 +2,7 @@
 
 import React from "react";
 import { CanvasContext } from "../Canvas";
-import { VesselRatiosContext } from "./VesselRatios";
+import { vesselRatios } from "./constants";
 import { ClotContext, CLOT_SITE_X_FRACTION } from "./ClotContextProvider";
 
 import { range } from "lodash";
@@ -19,7 +19,7 @@ const { simplex2 } = createNoiseGenerator(800);
 
 export default function TunicaLayers() {
   const canvasContextValue = React.useContext(CanvasContext);
-  const ratios = React.useContext(VesselRatiosContext);
+  const ratios = vesselRatios;
   const { isClotting } = React.useContext(ClotContext);
 
   React.useEffect(() => {
