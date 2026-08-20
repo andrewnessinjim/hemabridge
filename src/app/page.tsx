@@ -27,7 +27,6 @@ function App() {
       </main>
       <Spacer size={32} />
       <TunicaDivider mode="bottom" />
-      <Spacer size={32} />
       <Footer />
     </div>
   );

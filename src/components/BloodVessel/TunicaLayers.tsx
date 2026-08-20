@@ -5,7 +5,6 @@ import { CanvasContext } from "../Canvas";
 import { vesselRatios } from "./constants";
 import { ClotContext, CLOT_SITE_X_FRACTION } from "./ClotContextProvider";
 
-import { range } from "lodash";
 import { normalize } from "../../app/utils";
 import createNoiseGenerator from "../../vendor/noise.vendor";
 import { TUNICA_COLORS } from "@/colors";
@@ -116,7 +115,7 @@ export default function TunicaLayers({
       ];
 
       const points: { x: number; y: number }[] = [];
-      range(NUM_OF_POINTS).forEach((i) => {
+      for (let i = 0; i < NUM_OF_POINTS; i++) {
         const x = normalize(i, 0, NUM_OF_POINTS - 1, 0, canvasWidth);
         const y = normalize(
           simplex2(x / 100, totalTime / 10),
@@ -127,10 +126,10 @@ export default function TunicaLayers({
         );
 
         points.push({ x, y });
-      });
+      }
 
       const bottomPoints: { x: number; y: number }[] = [];
-      range(NUM_OF_POINTS).forEach((i) => {
+      for (let i = 0; i < NUM_OF_POINTS; i++) {
         const x = normalize(i, 0, NUM_OF_POINTS - 1, 0, canvasWidth);
         const y = normalize(
           simplex2(x / 100 + 1000, totalTime / 10),
@@ -141,7 +140,7 @@ export default function TunicaLayers({
         );
 
         bottomPoints.push({ x, y });
-      });
+      }
 
       function splitAroundGap(
         layerPoints: { x: number; y: number }[],
@@ -190,6 +189,7 @@ export default function TunicaLayers({
         gapRange: [number, number] | null = null,
       ) {
         const stride = 6;
+        targetCtx.beginPath();
         for (let i = 0; i < layerPoints.length - stride; i += stride) {
           const { x, y } = layerPoints[i];
           const nextX = layerPoints[i + stride].x;
@@ -204,21 +204,19 @@ export default function TunicaLayers({
             continue;
           }
 
-          const cy = y + yOffset;
-
-          targetCtx.beginPath();
+          targetCtx.moveTo(cellMidX + cellWidth * 0.3, y + yOffset);
           targetCtx.ellipse(
-            x + cellWidth / 2,
-            cy,
+            cellMidX,
+            y + yOffset,
             cellWidth * 0.3,
             height * 0.3,
             0,
             0,
             Math.PI * 2,
           );
-          targetCtx.fillStyle = "rgba(0, 0, 0, 0.55)";
-          targetCtx.fill();
         }
+        targetCtx.fillStyle = "rgba(0, 0, 0, 0.55)";
+        targetCtx.fill();
       }
 
       // Small dots scattered across the layer, in a few offset rows so
@@ -232,6 +230,7 @@ export default function TunicaLayers({
         const stride = 10;
         const rowOffsets = [-height * 0.3, 0, height * 0.3];
 
+        targetCtx.beginPath();
         layerPoints.forEach((point, i) => {
           if (i % stride !== 0) return;
 
@@ -239,12 +238,12 @@ export default function TunicaLayers({
             const staggeredX =
               point.x + (rowIndex % 2 === 0 ? 0 : stride * 2);
 
-            targetCtx.beginPath();
+            targetCtx.moveTo(staggeredX + 2, point.y + yOffset + rowOffset);
             targetCtx.arc(staggeredX, point.y + yOffset + rowOffset, 2, 0, Math.PI * 2);
-            targetCtx.fillStyle = "rgba(255, 255, 255, 0.35)";
-            targetCtx.fill();
           });
         });
+        targetCtx.fillStyle = "rgba(255, 255, 255, 0.35)";
+        targetCtx.fill();
       }
 
       // A few wavy fibers running through the layer, with dots placed
@@ -260,6 +259,8 @@ export default function TunicaLayers({
 
         const fiberSegments = splitAroundGap(layerPoints, gapRange);
 
+        targetCtx.strokeStyle = "rgba(0, 0, 0, 0.2)";
+        targetCtx.lineWidth = 1;
         fiberOffsets.forEach((fiberOffset) => {
           fiberSegments.forEach((segmentPoints) => {
             if (segmentPoints.length < 2) return;
@@ -270,11 +271,12 @@ export default function TunicaLayers({
               if (i === 0) targetCtx.moveTo(point.x, py);
               else targetCtx.lineTo(point.x, py);
             });
-            targetCtx.strokeStyle = "rgba(0, 0, 0, 0.2)";
-            targetCtx.lineWidth = 1;
             targetCtx.stroke();
           });
+        });
 
+        targetCtx.beginPath();
+        fiberOffsets.forEach((fiberOffset) => {
           layerPoints.forEach((point, i) => {
             if (i % dotStride !== 0) return;
             if (
@@ -284,12 +286,12 @@ export default function TunicaLayers({
             ) {
               return;
             }
-            targetCtx.beginPath();
+            targetCtx.moveTo(point.x + 2.5, point.y + yOffset + fiberOffset);
             targetCtx.arc(point.x, point.y + yOffset + fiberOffset, 2.5, 0, Math.PI * 2);
-            targetCtx.fillStyle = "rgba(0, 0, 0, 0.45)";
-            targetCtx.fill();
           });
         });
+        targetCtx.fillStyle = "rgba(0, 0, 0, 0.45)";
+        targetCtx.fill();
       }
 
       // Draws one wall's worth of layers (adventitia -> media -> intima),
