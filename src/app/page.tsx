@@ -14,6 +14,7 @@ function App() {
       <Header />
       <main>
         <Hero />
+        <Spacer size={32} />
         <TunicaDivider mode="top" />
         <Spacer size={32} />
         <HowItWorksSection />
