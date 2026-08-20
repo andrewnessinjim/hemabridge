@@ -2,7 +2,8 @@ import * as React from "react";
 import SectionIntro from "../SectionIntro";
 import styles from "./HowItWorksSection.module.scss";
 import Spacer from "../Spacer";
-import BloodVessel from "../BloodVessel";
+import HowItWorksSteps from "../HowItWorksSteps";
+import RevealAnimationDemo from "./RevealAnimationDemo";
 
 function HowItWorksSection() {
   return (
@@ -14,7 +15,9 @@ function HowItWorksSection() {
         description="Hemabridges nanoparticles are engineered to recognize the earliest signs of vascular injury and work alongside platelets to reinforce the body's own clotting response. This walkthrough follows that process step by step, from first contact at the site of injury to a stabilized wound."
       />
       <Spacer size={12} />
-      <BloodVessel />
+      <HowItWorksSteps />
+      <Spacer size={12} />
+      <RevealAnimationDemo />
     </div>
   );
 }

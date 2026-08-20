@@ -1,0 +1,73 @@
+@use "../../styles/breakpoints" as *;
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+  list-style: none;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2304 / 1154;
+  border-radius: 6px;
+  overflow: hidden;
+  filter: drop-shadow(0px 0px 3px hsl(0 0% 100% / 0.5));
+}
+
+.image {
+  object-fit: cover;
+}
+
+.text {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-6);
+}
+
+.stepNumber {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--primary-100);
+  color: var(--primary-600);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--text-lg);
+}
+
+.heading {
+  font-size: var(--text-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--primary-600);
+}
+
+.description {
+  max-width: 60ch;
+}
+
+@media (max-width: $phone) {
+  .wrapper {
+    gap: var(--space-10);
+  }
+
+  .text {
+    gap: var(--space-4);
+  }
+
+  .stepNumber {
+    width: 28px;
+    height: 28px;
+    font-size: var(--text-base);
+  }
+}

@@ -1,5 +1,17 @@
 .trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
   margin-bottom: var(--space-6);
+}
+
+.completeLabel {
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--secondary-600);
+  background: var(--secondary-100);
+  padding: var(--space-1) var(--space-3);
+  border-radius: 999px;
 }
 
 .container {
