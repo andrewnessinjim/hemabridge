@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Sora } from "next/font/google";
 import "./globals.scss";
-
+import { MotionConfig } from "motion/react";
+import RespectMotionPreferences from "@/components/RespectMotionPreferences";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -28,7 +29,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${sora.variable}`}
     >
-      <body>{children}</body>
+      <RespectMotionPreferences>
+        <body>{children}</body>
+      </RespectMotionPreferences>
     </html>
   );
 }

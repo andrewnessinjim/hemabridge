@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import styles from "./CTAButton.module.scss";
-import { motion, Variants } from "motion/react";
+import { motion, useReducedMotion, Variants } from "motion/react";
 
 type Props = Omit<
   React.ComponentProps<"button">,
@@ -16,10 +16,19 @@ const GRAPHIC_OFFSET: Record<"small" | "medium", number> = {
   medium: 10,
 };
 
-function graphicVariants(position: "top" | "bottom", offset: number): Variants {
+function graphicVariants(
+  position: "top" | "bottom",
+  offset: number,
+  prefersReducedMotion: boolean,
+): Variants {
+  const offsetWithDirection = position === "bottom" ? offset : -offset;
   return {
     hover: { opacity: 1, y: 0, scaleY: 1 },
-    rest: { opacity: 0, y: position === "bottom" ? offset : -offset, scaleY: 1 },
+    rest: {
+      opacity: 0,
+      y: prefersReducedMotion ? 0 : offsetWithDirection,
+      scaleY: 1,
+    },
   };
 }
 
@@ -29,8 +38,10 @@ const buttonVariants: Variants = {
 };
 
 function CTAButton({ size = "medium", ...props }: Props) {
-  const graphicSize = size === "small" ? styles.graphicSmall : styles.graphicMedium;
+  const graphicSize =
+    size === "small" ? styles.graphicSmall : styles.graphicMedium;
   const graphicOffset = GRAPHIC_OFFSET[size];
+  const prefersReducedMotion = useReducedMotion();
 
   return (
     <motion.div
@@ -41,7 +52,7 @@ function CTAButton({ size = "medium", ...props }: Props) {
     >
       <motion.div
         className={`${styles.graphic} ${styles.graphicTop} ${graphicSize}`}
-        variants={graphicVariants("top", graphicOffset)}
+        variants={graphicVariants("top", graphicOffset, prefersReducedMotion)}
       ></motion.div>
       <motion.button
         className={`${styles.button} ${styles[size]}`}
@@ -50,7 +61,11 @@ function CTAButton({ size = "medium", ...props }: Props) {
       ></motion.button>
       <motion.div
         className={`${styles.graphic} ${styles.graphicBottom} ${graphicSize}`}
-        variants={graphicVariants("bottom", graphicOffset)}
+        variants={graphicVariants(
+          "bottom",
+          graphicOffset,
+          prefersReducedMotion,
+        )}
       ></motion.div>
     </motion.div>
   );

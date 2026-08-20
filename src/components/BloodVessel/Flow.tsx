@@ -135,7 +135,7 @@ export default function Flow<T>({
               const particleY = particle.cyFraction * canvasHeight;
               const distance = Math.hypot(siteX - particle.x, siteY - particleY);
 
-              if (distance < captureRadius) {
+              if (distance < captureRadius && clotContextValue.registerCapture()) {
                 particle.captured = true;
                 particle.settleX = siteX + _.random(-PILE_SPREAD_X, PILE_SPREAD_X);
                 particle.settleCyFraction =
