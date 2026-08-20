@@ -3,7 +3,7 @@
 import React from "react";
 import { CanvasContext } from "../Canvas";
 import { VesselRatiosContext } from "./VesselRatios";
-import { ClotContext, CLOT_SITE_X_FRACTION } from "./ClotContext";
+import { ClotContext, CLOT_SITE_X_FRACTION } from "./ClotContextProvider";
 
 import { range } from "lodash";
 import { normalize } from "../../app/utils";

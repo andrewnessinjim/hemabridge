@@ -5,7 +5,7 @@ import {
   VesselRatiosContext,
   getWallInnerEdgeFraction,
 } from "./VesselRatios";
-import { ClotContext, CLOT_SITE_X_FRACTION } from "./ClotContext";
+import { ClotContext, CLOT_SITE_X_FRACTION } from "./ClotContextProvider";
 import { clampedNormalize } from "@/app/utils";
 import createNoiseGenerator from "../../vendor/noise.vendor";
 

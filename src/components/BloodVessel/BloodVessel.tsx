@@ -11,7 +11,7 @@ import FibrinFlow from "./FibrinFlow";
 import HemabridgeFlow from "./HemabridgeFlow";
 import Lumen from "./Lumen";
 import { VesselRatiosContext, vesselRatios } from "./VesselRatios";
-import { ClotContext } from "./ClotContext";
+import { ClotContextProvider } from "./ClotContextProvider";
 import CTAButton from "../CTAButton";
 
 function BloodVessel() {
@@ -19,7 +19,7 @@ function BloodVessel() {
 
   return (
     <VesselRatiosContext.Provider value={vesselRatios}>
-      <ClotContext.Provider value={{ isClotting }}>
+      <ClotContextProvider isClotting={isClotting}>
         <div className={styles.trigger}>
           <CTAButton
             size="small"
@@ -41,7 +41,7 @@ function BloodVessel() {
             <HemabridgeFlow />
           </Canvas>
         </div>
-      </ClotContext.Provider>
+      </ClotContextProvider>
     </VesselRatiosContext.Provider>
   );
 }
