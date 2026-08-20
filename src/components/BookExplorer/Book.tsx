@@ -4,7 +4,7 @@ import { BookData } from "@/data";
 import styles from "./Book.module.scss";
 import Image from "next/image";
 import StyledDialog from "../StyledDialog";
-import { motion, Variants } from "motion/react";
+import { motion, useReducedMotion, Variants } from "motion/react";
 
 type Props = {
   book: BookData;
@@ -29,6 +29,8 @@ const imageWrapperVariants: Variants = {
 
 const MotionImage = motion.create(Image);
 export default function Book({ book }: Props) {
+  const prefersReducedMotion = useReducedMotion();
+
   return (
     <div className={styles.wrapper}>
       <StyledDialog
@@ -60,11 +62,14 @@ export default function Book({ book }: Props) {
       >
         <div className={styles.details}>
           <div className={styles.detailsCover}>
-            <Image
+            <MotionImage
               src={book.coverImage}
               alt={book.coverImageAlt}
               fill
               className={styles.cover}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: prefersReducedMotion ? 0 : 1.4 }}
             />
           </div>
           <div className={styles.detailsBody}>
