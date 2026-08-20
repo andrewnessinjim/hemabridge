@@ -29,8 +29,8 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## Further Improvements
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+These are the improvements I would have made if I had more time:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. I took screenshot of the hemabridges for the hero section by rendering Hemabridges with different Canvas settings. If the instructions for drawing the hemabridges change, like having more detail, the Hero section will go out-of-sync and would require the manual process of taking screenshot again. I can  avoid this by setting up a pre-build script.

@@ -4,12 +4,49 @@
   position: relative;
   display: flex;
   margin-top: var(--space-20);
-  
+
   @media (max-width: $tablet) {
+    flex-direction: column;
+    align-items: center;
     margin-top: var(--space-12);
   }
 
   @media (max-width: $phone) {
     margin-top: var(--space-4);
+  }
+}
+
+.heroImage {
+  flex-shrink: 0;
+  align-self: center;
+  height: auto;
+  display: none;
+}
+
+// Single particle — phone only, where the wrapper stacks to a column;
+// pulled above the text via order.
+.imageSingle {
+  @media (max-width: $phone) {
+    display: block;
+    order: -1;
+  }
+}
+
+// Pair — spans two zones: tablet (still stacked, above the text like
+// single) and tabletLarge (back to the row layout, aligned right).
+.imagePair {
+  @media (min-width: #{$phone + 0.0625rem}) and (max-width: $tabletLarge) {
+    display: block;
+  }
+
+  @media (min-width: #{$phone + 0.0625rem}) and (max-width: $tablet) {
+    order: -1;
+  }
+}
+
+// Trio — full desktop cluster.
+.imageTrio {
+  @media (min-width: #{$tabletLarge + 0.0625rem}) {
+    display: block;
   }
 }
