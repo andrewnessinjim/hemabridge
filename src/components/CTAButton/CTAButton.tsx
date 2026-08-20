@@ -52,7 +52,11 @@ function CTAButton({ size = "medium", ...props }: Props) {
     >
       <motion.div
         className={`${styles.graphic} ${styles.graphicTop} ${graphicSize}`}
-        variants={graphicVariants("top", graphicOffset, prefersReducedMotion)}
+        variants={graphicVariants(
+          "top",
+          graphicOffset,
+          prefersReducedMotion || false,
+        )}
       ></motion.div>
       <motion.button
         className={`${styles.button} ${styles[size]}`}
@@ -64,7 +68,7 @@ function CTAButton({ size = "medium", ...props }: Props) {
         variants={graphicVariants(
           "bottom",
           graphicOffset,
-          prefersReducedMotion,
+          prefersReducedMotion || false,
         )}
       ></motion.div>
     </motion.div>
