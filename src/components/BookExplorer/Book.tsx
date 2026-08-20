@@ -15,6 +15,18 @@ const imageVariants: Variants = {
   rest: { scale: 1 },
 };
 
+const imageWrapperVariants: Variants = {
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      x: { type: "spring", stiffness: 50, damping: 10 },
+      opacity: { type: "tween", duration: 1 },
+    },
+  },
+  hide: { opacity: 0, x: 10 },
+};
+
 const MotionImage = motion.create(Image);
 export default function Book({ book }: Props) {
   return (
@@ -26,13 +38,13 @@ export default function Book({ book }: Props) {
           <button className={styles.imageButton}>
             <motion.div
               className={styles.imageWrapper}
-              whileHover="hover"
-              animate="rest"
+              variants={imageWrapperVariants}
             >
               <MotionImage
                 src={book.coverImage}
                 alt={book.coverImageAlt}
                 fill
+                whileHover="hover"
                 className={styles.cover}
                 variants={imageVariants}
                 transition={{
