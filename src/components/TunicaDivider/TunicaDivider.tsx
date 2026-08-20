@@ -9,7 +9,7 @@ type Props = {
 function TunicaDivider({ mode }: Props) {
   return (
     <Canvas className={styles.canvas}>
-      <TunicaLayers mode={mode} grayscale />
+      <TunicaLayers mode={mode} grayscale static />
     </Canvas>
   );
 }
