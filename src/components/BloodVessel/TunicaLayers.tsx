@@ -17,7 +17,16 @@ const MEDIA_BREACH_WIDTH = 60;
 
 const { simplex2 } = createNoiseGenerator(800);
 
-export default function TunicaLayers() {
+type Props = {
+  /** "pair" (default) draws both vessel walls with the lumen gap between
+   * them, and is the only mode that supports the clot breach. "top"/"bottom"
+   * draw a single wall stretched to fill the whole canvas height, for use
+   * as a standalone section divider. */
+  mode?: "top" | "bottom" | "pair";
+  grayscale?: boolean;
+};
+
+export default function TunicaLayers({ mode = "pair", grayscale = false }: Props) {
   const canvasContextValue = React.useContext(CanvasContext);
   const ratios = vesselRatios;
   const { isClotting } = React.useContext(ClotContext);
@@ -29,21 +38,48 @@ export default function TunicaLayers() {
 
     const unregister = register(
       ({ ctx, canvasWidth, canvasHeight, totalTime }) => {
+        ctx.save();
+        if (grayscale) {
+          ctx.filter = "grayscale(1)";
+        }
+        // Standalone top/bottom dividers are meant to sit quietly in the
+        // background, not compete with the vivid clot-simulation "pair"
+        // rendering.
+        if (mode !== "pair") {
+          ctx.globalAlpha = 0.25;
+        }
+
+        // "pair" divides the canvas between two walls with a lumen gap in
+        // between; standalone "top"/"bottom" have no lumen or second wall
+        // to share space with, so the three layers fill the full height.
+        // In "pair" mode the lumen gap easily absorbs the Y_VARIATION noise
+        // wave, but a standalone wall has zero slack, so its innermost
+        // layer needs that headroom reserved or the noise can push it past
+        // the canvas edge and clip it.
         const totalParts =
-          2 * (ratios.intima + ratios.media + ratios.adventitia) +
-          ratios.lumen;
-        const unitHeight = canvasHeight / totalParts;
+          mode === "pair"
+            ? 2 * (ratios.intima + ratios.media + ratios.adventitia) +
+              ratios.lumen
+            : ratios.intima + ratios.media + ratios.adventitia;
+        const availableHeight =
+          mode === "pair" ? canvasHeight : canvasHeight - Y_VARIATION;
+        const unitHeight = availableHeight / totalParts;
 
         const breachCenterX = CLOT_SITE_X_FRACTION * canvasWidth;
-        const breachRange: [number, number] | null = isClotting
-          ? [breachCenterX - BREACH_WIDTH / 2, breachCenterX + BREACH_WIDTH / 2]
-          : null;
-        const mediaBreachRange: [number, number] | null = isClotting
-          ? [
-              breachCenterX - MEDIA_BREACH_WIDTH / 2,
-              breachCenterX + MEDIA_BREACH_WIDTH / 2,
-            ]
-          : null;
+        const breachRange: [number, number] | null =
+          mode === "pair" && isClotting
+            ? [
+                breachCenterX - BREACH_WIDTH / 2,
+                breachCenterX + BREACH_WIDTH / 2,
+              ]
+            : null;
+        const mediaBreachRange: [number, number] | null =
+          mode === "pair" && isClotting
+            ? [
+                breachCenterX - MEDIA_BREACH_WIDTH / 2,
+                breachCenterX + MEDIA_BREACH_WIDTH / 2,
+              ]
+            : null;
 
         const tunicaLayers = [
           {
@@ -75,6 +111,20 @@ export default function TunicaLayers() {
           );
 
           points.push({ x, y });
+        });
+
+        const bottomPoints: { x: number; y: number }[] = [];
+        range(NUM_OF_POINTS).forEach((i) => {
+          const x = normalize(i, 0, NUM_OF_POINTS - 1, 0, canvasWidth);
+          const y = normalize(
+            simplex2(x / 100 + 1000, totalTime / 10),
+            -1,
+            1,
+            canvasHeight - Y_VARIATION,
+            canvasHeight,
+          );
+
+          bottomPoints.push({ x, y });
         });
 
         function splitAroundGap(
@@ -226,46 +276,57 @@ export default function TunicaLayers() {
           });
         }
 
-        const bottomPoints: { x: number; y: number }[] = [];
-        range(NUM_OF_POINTS).forEach((i) => {
-          const x = normalize(i, 0, NUM_OF_POINTS - 1, 0, canvasWidth);
-          const y = normalize(
-            simplex2(x / 100 + 1000, totalTime / 10),
-            -1,
-            1,
-            canvasHeight - Y_VARIATION,
-            canvasHeight,
-          );
+        // Draws one wall's worth of layers (adventitia -> media -> intima),
+        // stacking outward from initialOffset. direction is +1 for the top
+        // wall (offsets grow downward from the top points) and -1 for the
+        // bottom wall (offsets grow upward from the bottom points).
+        function drawWall(
+          layerPoints: { x: number; y: number }[],
+          direction: 1 | -1,
+          gapRange: [number, number] | null,
+          mediaGapRange: [number, number] | null,
+          initialOffset: number,
+        ) {
+          let currentOffset = initialOffset;
+          tunicaLayers.forEach((layer, i) => {
+            if (i > 0) {
+              currentOffset +=
+                tunicaLayers[i - 1].height / 2 + layer.height / 2;
+            }
 
-          bottomPoints.push({ x, y });
-        });
+            const isInnermostLayer = i === tunicaLayers.length - 1;
+            const isMediaLayer = i === 1;
+            const thisGapRange = isInnermostLayer
+              ? gapRange
+              : isMediaLayer
+                ? mediaGapRange
+                : null;
 
-        let currentOffset = 0;
-        tunicaLayers.forEach((layer, i) => {
-          if (i > 0) {
-            currentOffset += tunicaLayers[i - 1].height / 2 + layer.height / 2;
-          }
+            const yOffset = direction * currentOffset;
+            drawLayer(layerPoints, layer, yOffset, thisGapRange);
+            layer.drawTexture(layerPoints, yOffset, layer.height, thisGapRange);
+          });
+        }
 
-          // The wound breaches the intima fully and the media partially
-          // (a narrower gap), only on the top wall.
-          const isInnermostLayer = i === tunicaLayers.length - 1;
-          const isMediaLayer = i === 1;
-          const topGapRange = isInnermostLayer
-            ? breachRange
-            : isMediaLayer
-              ? mediaBreachRange
-              : null;
+        if (mode === "pair") {
+          // Both walls share the same offset progression (0-seeded), which
+          // is why the outermost (adventitia) layer straddles the canvas
+          // edge rather than sitting flush against it.
+          drawWall(points, 1, breachRange, mediaBreachRange, 0);
+          drawWall(bottomPoints, -1, null, null, 0);
+        } else if (mode === "top") {
+          // Seed the offset so the outer edge of the adventitia layer sits
+          // flush at y=0 instead of straddling it.
+          drawWall(points, 1, null, null, tunicaLayers[0].height / 2);
+        } else {
+          drawWall(bottomPoints, -1, null, null, tunicaLayers[0].height / 2);
+        }
 
-          drawLayer(points, layer, currentOffset, topGapRange);
-          drawLayer(bottomPoints, layer, -currentOffset);
-
-          layer.drawTexture(points, currentOffset, layer.height, topGapRange);
-          layer.drawTexture(bottomPoints, -currentOffset, layer.height);
-        });
+        ctx.restore();
       },
     );
 
     return unregister;
-  }, [canvasContextValue, ratios, isClotting]);
+  }, [canvasContextValue, ratios, isClotting, mode, grayscale]);
   return <React.Fragment />;
 }

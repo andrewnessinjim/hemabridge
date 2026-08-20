@@ -6,6 +6,7 @@ import Books from "@/components/BooksSection";
 import HowItWorksSection from "@/components/HowItWorksSection";
 import CallToActionSection from "@/components/CallToActionSection";
 import Footer from "@/components/Footer";
+import TunicaDivider from "@/components/TunicaDivider";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Header />
       <main>
         <Hero />
+        <TunicaDivider mode="top" />
         <Spacer size={32} />
         <HowItWorksSection />
         <Spacer size={32} />
@@ -22,6 +24,9 @@ function App() {
         <Spacer size={32} />
         <CallToActionSection />
       </main>
+      <Spacer size={32} />
+      <TunicaDivider mode="bottom" />
+      <Spacer size={32} />
       <Footer />
     </div>
   );
